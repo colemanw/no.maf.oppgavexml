@@ -22,11 +22,11 @@ class CRM_Oppgavexml_LoadQueue {
   }
 
   private function __construct() {
-    $this->queue = CRM_Queue_Service::singleton()->create(array(
+    $this->queue = CRM_Queue_Service::singleton()->create([
       'type' => 'Sql',
       'name' => self::QUEUE_NAME,
       'reset' => true, //do not flush queue upon creation
-    ));
+    ]);
   }
 
   public function getQueue() {

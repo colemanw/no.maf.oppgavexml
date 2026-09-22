@@ -24,7 +24,7 @@ class CRM_Oppgavexml_Config {
   /*
    * property to hold the tax declaration file status
    */
-  protected $_tax_declaration_status = array();
+  protected $_tax_declaration_status = [];
   /*
    * property for custom group and custom fields for personsnummer and organisasjonsnummer
    */
@@ -327,7 +327,7 @@ class CRM_Oppgavexml_Config {
    */
   private function setCustomGroupAndField($customGroupName, $groupProperty, $customFieldName, $fieldProperty) {
     try {
-      $customGroup = civicrm_api3('CustomGroup', 'getsingle', array('name' => $customGroupName,));
+      $customGroup = civicrm_api3('CustomGroup', 'getsingle', ['name' => $customGroupName,]);
     }
     catch (CRM_Core_Exception $ex) {
       throw new Exception('Could not find a custom group with name '.$customGroupName.' in '.__METHOD__
@@ -335,11 +335,11 @@ class CRM_Oppgavexml_Config {
     }
     $this->$groupProperty = $customGroup['table_name'];
     try {
-      $this->$fieldProperty = civicrm_api3('CustomField', 'getvalue', array(
+      $this->$fieldProperty = civicrm_api3('CustomField', 'getvalue', [
         'custom_group_id' => $customGroup['id'],
         'name' => $customFieldName,
         'return' => 'column_name',
-      ));
+      ]);
     }
     catch (CRM_Core_Exception $ex) {
       throw new Exception('Could not find a custom field with name '.$customFieldName.' within custom group '

@@ -30,57 +30,57 @@ class CRM_Oppgavexml_DAO_Oppgave extends CRM_Core_DAO {
    */
   static function &fields() {
     if (!(self::$_fields)) {
-      self::$_fields = array(
-        'id' => array(
+      self::$_fields = [
+        'id' => [
           'name' => 'id',
           'type' => CRM_Utils_Type::T_INT,
           'required' => true
-        ) ,
-        'oppgave_year' => array(
+        ] ,
+        'oppgave_year' => [
           'name' => 'oppgave_year',
           'type' => CRM_Utils_Type::T_STRING,
           'maxlength' => 4,
-        ) ,
-        'contact_id' => array(
+        ] ,
+        'contact_id' => [
           'name' => 'contact_id',
           'type' => CRM_Utils_Type::T_INT,
-        ),
-        'donor_type' => array(
+        ],
+        'donor_type' => [
           'name' => 'donor_type',
           'type' => CRM_Utils_Type::T_STRING,
           'maxlength' => 45,
-        ),
-        'donor_name' => array(
+        ],
+        'donor_name' => [
           'name' => 'donor_name',
           'type' => CRM_Utils_Type::T_STRING,
           'maxlength' => 128,
-        ),
-        'donor_number' => array(
+        ],
+        'donor_number' => [
           'name' => 'donor_number',
           'type' => CRM_Utils_Type::T_STRING,
           'maxlength' => 45,
-        ),
-        'deductible_amount' => array(
+        ],
+        'deductible_amount' => [
           'name' => 'deductible_amount',
           'type' => CRM_Utils_Type::T_INT,
-        ),
-        'loaded_date' => array(
+        ],
+        'loaded_date' => [
           'name' => 'loaded_date',
           'type' => CRM_Utils_Type::T_DATE,
-        ),
-        'last_modified_date' => array(
+        ],
+        'last_modified_date' => [
           'name' => 'last_modified_date',
           'type' => CRM_Utils_Type::T_DATE,
-        ),
-        'last_modified_user_id' => array(
+        ],
+        'last_modified_user_id' => [
           'name' => 'last_modified_user_id',
           'type' => CRM_Utils_Type::T_INT,
-        ),
-        'last_exported_date' => array(
+        ],
+        'last_exported_date' => [
           'name' => 'last_exported_date',
           'type' => CRM_Utils_Type::T_DATE,
-        ),
-      );
+        ],
+      ];
     }
     return self::$_fields;
   }
@@ -93,7 +93,7 @@ class CRM_Oppgavexml_DAO_Oppgave extends CRM_Core_DAO {
    */
   static function &fieldKeys() {
     if (!(self::$_fieldKeys)) {
-      self::$_fieldKeys = array(
+      self::$_fieldKeys = [
         'id' => 'id', 
         'oppgave_year' => 'oppgave_year',
         'contact_id' => 'contact_id',
@@ -105,7 +105,7 @@ class CRM_Oppgavexml_DAO_Oppgave extends CRM_Core_DAO {
         'last_modified_date' => 'last_modified_date',
         'last_modified_user_id' => 'last_modified_user_id',
         'last_exported_date' => 'last_exported_date'
-      );
+      ];
     }
     return self::$_fieldKeys;
   }
@@ -119,7 +119,7 @@ class CRM_Oppgavexml_DAO_Oppgave extends CRM_Core_DAO {
   static function &export($prefix = false)
   {
     if (!(self::$_export)) {
-      self::$_export = array();
+      self::$_export = [];
       $fields = self::fields();
       foreach($fields as $name => $field) {
         if (CRM_Utils_Array::value('export', $field)) {

@@ -17,7 +17,7 @@ class CRM_Oppgavexml_BAO_Skatteinnberetninger extends CRM_Oppgavexml_DAO_Skattei
    * @static
    */
   public static function get_values($params) {
-    $result = array();
+    $result = [];
     $skatteinnberetninger = new CRM_Oppgavexml_BAO_Skatteinnberetninger();
     if (!empty($params)) {
       $fields = self::fields();
@@ -29,7 +29,7 @@ class CRM_Oppgavexml_BAO_Skatteinnberetninger extends CRM_Oppgavexml_DAO_Skattei
     }
     $skatteinnberetninger->find();
     while ($skatteinnberetninger->fetch()) {
-      $row = array();
+      $row = [];
       self::storeValues($skatteinnberetninger, $row);
       $result[$row['year']] = $row;
     }
@@ -45,7 +45,7 @@ class CRM_Oppgavexml_BAO_Skatteinnberetninger extends CRM_Oppgavexml_DAO_Skattei
    * @static
    */
   public static function add($params) {
-    $result = array();
+    $result = [];
     if (empty($params)) {
       throw new Exception('Params can not be empty when adding or updating a tax declaration year');
     }
@@ -78,9 +78,9 @@ class CRM_Oppgavexml_BAO_Skatteinnberetninger extends CRM_Oppgavexml_DAO_Skattei
       //$skatteinnberetninger->update($year);
       $update = 'UPDATE '.$skatteinnberetninger->getTableName().
         ' SET last_referanse = %1 WHERE year = %2';
-      $params = array(
-        1 => array($last_referanse, 'Positive'),
-        2 => array($year, 'Positive'));
+      $params = [
+        1 => [$last_referanse, 'Positive'],
+        2 => [$year, 'Positive']];
       CRM_Core_DAO::executeQuery($update, $params);
       $oppgave_config = CRM_Oppgavexml_Config::singleton();
       $referanse = $oppgave_config->get_sender_organisasjonsnummer().'-'.$year.'-'.$last_referanse;

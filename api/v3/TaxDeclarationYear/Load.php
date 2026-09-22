@@ -32,10 +32,10 @@ function civicrm_api3_tax_declaration_year_load($params) {
 
   if ($dao->N == 0) {
     oppgavexml_resetProcessed($params['year']);
-    $returnValues = array('All contacts for tax year '.$params['year'].' processed');
+    $returnValues = ['All contacts for tax year '.$params['year'].' processed'];
     $logger->logMessage('Info', 'No more contacts to be processed found for year '.$params['year']);
   } else {
-    $returnValues = array('Batch of '.$limit.' contacts for tax year '.$params['year'].' processed, you need to do more runs!');
+    $returnValues = ['Batch of '.$limit.' contacts for tax year '.$params['year'].' processed, you need to do more runs!'];
     $logger->logMessage('Info', 'Batch of '.$limit.' contacts processed for year '.$params['year']);
   }
   while ($dao->fetch()) {
@@ -67,13 +67,13 @@ function oppgavexml_getRelevantContacts($year, $limit=1000) {
     AND oppgave_year = %1
     WHERE receive_date BETWEEN %2 AND %3  AND contribution_status_id = %4 AND b.contact_id IS NULL
     GROUP BY a.contact_id HAVING SUM(total_amount - non_deductible_amount) >= %5 LIMIT %6';
-  $params = array(
-    1 => array($year, 'Positive'),
-    2 => array($startDate, 'String'),
-    3 => array($endDate, 'String'),
-    4 => array(1, 'Positive'),
-    5 => array($minAmount, 'Integer'),
-    6 => array($limit, 'Integer'));
+  $params = [
+    1 => [$year, 'Positive'],
+    2 => [$startDate, 'String'],
+    3 => [$endDate, 'String'],
+    4 => [1, 'Positive'],
+    5 => [$minAmount, 'Integer'],
+    6 => [$limit, 'Integer']];
 
   $dao = CRM_Core_DAO::executeQuery($query, $params);
   return $dao;
@@ -107,9 +107,9 @@ function oppgavexml_createContactOppgave($params, $dao, $logger) {
 function oppgavexml_removeExistingContactInOppgave($contactId, $oppgaveYear) {
   $query = 'DELETE FROM civicrm_oppgave WHERE contact_id = %1 '
     . 'AND oppgave_year = %2';
-  $params = array(
-    1 => array($contactId, 'Positive'),
-    2 => array($oppgaveYear, 'Positive'));
+  $params = [
+    1 => [$contactId, 'Positive'],
+    2 => [$oppgaveYear, 'Positive']];
   $dao = CRM_Core_DAO::executeQuery($query, $params);
 }
 
@@ -122,7 +122,7 @@ function oppgavexml_removeExistingContactInOppgave($contactId, $oppgaveYear) {
  * @return array $params
  */
 function oppgavexml_setOppgaveParams($year, $dao, $logger) {
-  $params = array();
+  $params = [];
   $config = CRM_Oppgavexml_Config::singleton();
   $minAmount = $config->get_min_deductible_amount();
   $maxAmount = $config->get_max_deductible_amount();
@@ -134,14 +134,14 @@ function oppgavexml_setOppgaveParams($year, $dao, $logger) {
       .', year '.$year);
     $donorData = oppgavexml_getDonorData($dao->contact_id);
     if (oppgavexml_validateData($donorData) == TRUE) {
-      $params = array(
-        1 => array($year, 'Positive'),
-        2 => array($dao->contact_id, 'Positive'),
-        3 => array($donorData['type'], 'String'),
-        4 => array($donorData['name'], 'String'),
-        5 => array($donorData['number'], 'String'),
-        6 => array($dao->deductible_amount, 'Money'),
-        7 => array(date('Ymd'), 'Date'));
+      $params = [
+        1 => [$year, 'Positive'],
+        2 => [$dao->contact_id, 'Positive'],
+        3 => [$donorData['type'], 'String'],
+        4 => [$donorData['name'], 'String'],
+        5 => [$donorData['number'], 'String'],
+        6 => [$dao->deductible_amount, 'Money'],
+        7 => [date('Ymd'), 'Date']];
     } else {
       $logger->logMessage('Error', 'No person/organisasjonsnummer found for contact '.$dao->contact_id.', year '.$year);
     }
@@ -154,12 +154,12 @@ function oppgavexml_setOppgaveParams($year, $dao, $logger) {
  * @return array $donorData
  */
 function oppgavexml_getDonorData($contactId) {
-  $params = array('id' => $contactId);
+  $params = ['id' => $contactId];
   try {
     $contactData = civicrm_api3('Contact', 'Getsingle', $params);
     $donorData = oppgavexml_pullDonorData($contactData);
   } catch (CRM_Core_Exception $ex) {
-    $donorData = array();
+    $donorData = [];
   }
   return $donorData;
 }
@@ -170,7 +170,7 @@ function oppgavexml_getDonorData($contactId) {
  * @return array $donorData
  */
 function oppgavexml_pullDonorData($contactData) {
-  $donorData = array();
+  $donorData = [];
   $donorData['name'] = $contactData['display_name'];
   $customData = oppgavexml_getCustomData($contactData['id'], $contactData['contact_type']);
   $donorData['number'] = $customData['nummer'];
@@ -205,7 +205,7 @@ function oppgavexml_getCustomData($contactId, $contactType) {
     $columnName = $config->getMafPersonNummerColumnName();
   }
   $query = ' SELECT '.$columnName.' FROM '.$tableName.' WHERE entity_id = %1';
-  $params = array(1 => array($contactId, 'Positive'));
+  $params = [1 => [$contactId, 'Positive']];
   $dao = CRM_Core_DAO::executeQuery($query, $params);
   if ($dao->fetch()) {
     $customData['nummer'] = $dao->$columnName;
@@ -221,9 +221,9 @@ function oppgavexml_getCustomData($contactId, $contactType) {
  */
 function oppgavexml_createSkatteinnberetninger($params) {
   $query = 'REPLACE INTO civicrm_skatteinnberetninger (year, status_id) VALUES(%1, %2)';
-  $queryParams = array(
-    1 => array($params['year'], 'Positive'),
-    2 => array(2, 'Positive'));
+  $queryParams = [
+    1 => [$params['year'], 'Positive'],
+    2 => [2, 'Positive']];
   CRM_Core_DAO::executeQuery($query, $queryParams);
 }
 /**
@@ -257,16 +257,16 @@ function oppgavexml_validateParams(&$params) {
  */
 function oppgavexml_setProcessed($year, $contactId) {
   $query = "INSERT INTO civicrm_oppgave_processed (contact_id, oppgave_year) VALUES(%1, %2)";
-  $params = array(
-    1 => array($contactId, 'Integer'),
-    2 => array($year, 'Integer')
-  );
+  $params = [
+    1 => [$contactId, 'Integer'],
+    2 => [$year, 'Integer']
+  ];
   CRM_Core_DAO::executeQuery($query, $params);
 }
 
 function oppgavexml_resetProcessed($year) {
   $query = "DELETE FROM civicrm_oppgave_processed WHERE oppgave_year = %1";
-  CRM_Core_DAO::executeQuery($query, array(1 => array($year, 'Integer')));
+  CRM_Core_DAO::executeQuery($query, [1 => [$year, 'Integer']]);
 }
 
 /**

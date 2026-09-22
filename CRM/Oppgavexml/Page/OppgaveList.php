@@ -23,7 +23,7 @@ class CRM_Oppgavexml_Page_OppgaveList extends CRM_Core_Page {
   function run() {
     $this->set_page_configuration();
     $display_oppgaves = $this->get_oppgaves();
-    $this->assign('donor_type_options', array('All', 'Husholdning', 'Organisasjon', 'Person'));
+    $this->assign('donor_type_options', ['All', 'Husholdning', 'Organisasjon', 'Person']);
     $this->assign('oppgaves', $display_oppgaves);
     parent::run();
   }
@@ -45,10 +45,10 @@ class CRM_Oppgavexml_Page_OppgaveList extends CRM_Core_Page {
     return $oppgaves;
   }
   protected function get_contact_name($contact_id) {
-    $params = array(
+    $params = [
       'id' => $contact_id,
       'return' => 'display_name'
-    );
+    ];
     $name = civicrm_api3('Contact', 'Getvalue', $params);
     return $name;
   }
@@ -60,7 +60,7 @@ class CRM_Oppgavexml_Page_OppgaveList extends CRM_Core_Page {
    * @access protected
    */
   protected function set_row_actions($oppgave) {
-    $page_actions = array();
+    $page_actions = [];
     $edit_url = CRM_Utils_System::url('civicrm/oppgave', 'action=update&oid='.
       $oppgave['id'].'&year='.$oppgave['oppgave_year']);
     $page_actions[] = '<a class="action-item" title="Edit" href="'.$edit_url.'">Edit</a>';
@@ -77,7 +77,7 @@ class CRM_Oppgavexml_Page_OppgaveList extends CRM_Core_Page {
    * @access protected
    */
   protected function set_filter_params() {
-    $params = array();
+    $params = [];
     if (!empty($this->_request_contact_id)) {
       $params['contact_id'] = $this->_request_contact_id;
     }

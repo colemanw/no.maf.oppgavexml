@@ -27,7 +27,7 @@ class CRM_Oppgavexml_Page_TaxYearList extends CRM_Core_Page {
    * @access protected
    */
   protected function set_row_actions($tax_year, $status_id) {
-    $page_actions = array();
+    $page_actions = [];
     $status_label = CRM_OppgaveXml_OptionGroup::get_status_option_label($status_id);
     $manage_url = CRM_Utils_System::url('civicrm/oppgavelist', 'year='.$tax_year.'&cid=&dt=');
     $reload_url = CRM_Utils_System::url('civicrm/oppgave/load', 'year='.$tax_year);
@@ -55,7 +55,7 @@ class CRM_Oppgavexml_Page_TaxYearList extends CRM_Core_Page {
    * @access protected
    */
   protected function get_skatteinnberetninger() {
-    $skatteinnberetninger = CRM_Oppgavexml_BAO_Skatteinnberetninger::get_values(array());
+    $skatteinnberetninger = CRM_Oppgavexml_BAO_Skatteinnberetninger::get_values([]);
     foreach ($skatteinnberetninger as $key => $values) {
       $skatteinnberetninger[$key]['status'] = CRM_Oppgavexml_OptionGroup::get_status_option_label($values['status_id']);
       $skatteinnberetninger[$key]['actions'] = $this->set_row_actions($key, $values['status_id']);

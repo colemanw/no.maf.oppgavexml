@@ -30,22 +30,22 @@ class CRM_Oppgavexml_DAO_Skatteinnberetninger extends CRM_Core_DAO {
    */
   static function &fields() {
     if (!(self::$_fields)) {
-      self::$_fields = array(
-        'year' => array(
+      self::$_fields = [
+        'year' => [
           'name' => 'year',
           'type' => CRM_Utils_Type::T_STRING,
           'maxlength' => 4,
           'required' => true
-        ) ,
-        'status_id' => array(
+        ] ,
+        'status_id' => [
           'name' => 'status_id',
           'type' => CRM_Utils_Type::T_INT,
-        ) ,
-        'last_referanse' => array(
+        ] ,
+        'last_referanse' => [
           'name' => 'last_referanse',
           'type' => CRM_Utils_Type::T_STRING,
-        )
-      );
+        ]
+      ];
     }
     return self::$_fields;
   }
@@ -58,11 +58,11 @@ class CRM_Oppgavexml_DAO_Skatteinnberetninger extends CRM_Core_DAO {
    */
   static function &fieldKeys() {
     if (!(self::$_fieldKeys)) {
-      self::$_fieldKeys = array(
+      self::$_fieldKeys = [
         'year' => 'year', 
         'status_id' => 'status_id',
         'last_referanse' => 'last_referanse'
-      );
+      ];
     }
     return self::$_fieldKeys;
   }
@@ -76,7 +76,7 @@ class CRM_Oppgavexml_DAO_Skatteinnberetninger extends CRM_Core_DAO {
   static function &export($prefix = false)
   {
     if (!(self::$_export)) {
-      self::$_export = array();
+      self::$_export = [];
       $fields = self::fields();
       foreach($fields as $name => $field) {
         if (CRM_Utils_Array::value('export', $field)) {

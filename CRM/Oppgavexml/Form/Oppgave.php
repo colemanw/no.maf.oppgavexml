@@ -14,7 +14,7 @@ class CRM_Oppgavexml_Form_Oppgave extends CRM_Core_Form {
   
   protected $_oppgave_id = null;
   protected $_oppgave_year = null;
-  protected $_donor_type_list = array();
+  protected $_donor_type_list = [];
   /**
    * Function to build the QuickForm
    * 
@@ -54,9 +54,9 @@ class CRM_Oppgavexml_Form_Oppgave extends CRM_Core_Form {
    * @access public
    */
   function setDefaultValues() {
-    $defaults = array();
+    $defaults = [];
     if (isset($this->_oppgave_id)) {
-      $oppgave_values = CRM_Oppgavexml_BAO_Oppgave::get_values(array('id' => $this->_oppgave_id));
+      $oppgave_values = CRM_Oppgavexml_BAO_Oppgave::get_values(['id' => $this->_oppgave_id]);
       foreach ($oppgave_values[$this->_oppgave_id] as $name => $value) {
         $defaults[$name] = $value;
       }
@@ -82,17 +82,17 @@ class CRM_Oppgavexml_Form_Oppgave extends CRM_Core_Form {
    * @access public
    */
   function addRules() {
-    $this->addFormRule(array('CRM_Oppgavexml_Form_Oppgave', 'validate_amount'));
-    $this->addFormRule(array('CRM_Oppgavexml_Form_Oppgave', 'validate_donor_name_empty'));
-    $this->addFormRule(array('CRM_Oppgavexml_Form_Oppgave', 'validate_donor_number_empty'));
+    $this->addFormRule(['CRM_Oppgavexml_Form_Oppgave', 'validate_amount']);
+    $this->addFormRule(['CRM_Oppgavexml_Form_Oppgave', 'validate_donor_name_empty']);
+    $this->addFormRule(['CRM_Oppgavexml_Form_Oppgave', 'validate_donor_number_empty']);
     switch ($this->_action) {
       case CRM_Core_Action::ADD:
-        $this->addFormRule(array('CRM_Oppgavexml_Form_Oppgave', 'validate_donor_name_exists_add'));
-        $this->addFormRule(array('CRM_Oppgavexml_Form_Oppgave', 'validate_donor_number_exists_add'));
+        $this->addFormRule(['CRM_Oppgavexml_Form_Oppgave', 'validate_donor_name_exists_add']);
+        $this->addFormRule(['CRM_Oppgavexml_Form_Oppgave', 'validate_donor_number_exists_add']);
         break;
       case CRM_Core_Action::UPDATE:
-        $this->addFormRule(array('CRM_Oppgavexml_Form_Oppgave', 'validate_donor_name_exists_update'));
-        $this->addFormRule(array('CRM_Oppgavexml_Form_Oppgave', 'validate_donor_number_exists_update'));
+        $this->addFormRule(['CRM_Oppgavexml_Form_Oppgave', 'validate_donor_name_exists_update']);
+        $this->addFormRule(['CRM_Oppgavexml_Form_Oppgave', 'validate_donor_number_exists_update']);
         break;
     }
   }
@@ -122,9 +122,9 @@ class CRM_Oppgavexml_Form_Oppgave extends CRM_Core_Form {
   static function validate_donor_name_exists_add($fields) {
     $query = 'SELECT COUNT(*) AS count_oppgave FROM civicrm_oppgave WHERE '
       . 'LOWER(donor_name) = %1 AND oppgave_year = %2';
-    $query_params = array(
-      1 => array(strtolower($fields['donor_name']), 'String'),
-      2 => array($fields['oppgave_year'], 'Positive'));
+    $query_params = [
+      1 => [strtolower($fields['donor_name']), 'String'],
+      2 => [$fields['oppgave_year'], 'Positive']];
     $dao = CRM_Core_DAO::executeQuery($query, $query_params);
     if ($dao->fetch()) {
       if ($dao->count_oppgave > 0) {
@@ -144,15 +144,15 @@ class CRM_Oppgavexml_Form_Oppgave extends CRM_Core_Form {
    */
   static function validate_donor_name_exists_update($fields) {
     $select_query = 'SELECT donor_name FROM civicrm_oppgave WHERE id = %1';
-    $select_params = array(1 => array($fields['id'], 'Positive'));
+    $select_params = [1 => [$fields['id'], 'Positive']];
     $select_dao = CRM_Core_DAO::executeQuery($select_query, $select_params);
     if ($select_dao->fetch()) {
       if (strtolower($fields['donor_name']) != strtolower($select_dao->donor_name)) {
         $check_query = 'SELECT COUNT(*) AS count_oppgave FROM civicrm_oppgave WHERE '
           . 'LOWER(donor_name) = %1 AND oppgave_year = %2';
-        $check_params = array(
-          1 => array(strtolower($fields['donor_name']), 'String'),
-          2 => array($fields['oppgave_year'], 'Positive'));
+        $check_params = [
+          1 => [strtolower($fields['donor_name']), 'String'],
+          2 => [$fields['oppgave_year'], 'Positive']];
         $check_dao = CRM_Core_DAO::executeQuery($check_query, $check_params);
         if ($check_dao->fetch()) {
           if ($check_dao->count_oppgave > 0) {
@@ -175,9 +175,9 @@ class CRM_Oppgavexml_Form_Oppgave extends CRM_Core_Form {
   static function validate_donor_number_exists_add($fields) {
     $query = 'SELECT COUNT(*) AS count_oppgave FROM civicrm_oppgave WHERE '
       . 'donor_number = %1 AND oppgave_year = %2';
-    $query_params = array(
-      1 => array($fields['donor_number'], 'String'),
-      2 => array($fields['oppgave_year'], 'Positive'));
+    $query_params = [
+      1 => [$fields['donor_number'], 'String'],
+      2 => [$fields['oppgave_year'], 'Positive']];
     $dao = CRM_Core_DAO::executeQuery($query, $query_params);
     if ($dao->fetch()) {
       if ($dao->count_oppgave > 0) {
@@ -197,15 +197,15 @@ class CRM_Oppgavexml_Form_Oppgave extends CRM_Core_Form {
    */
   static function validate_donor_number_exists_update($fields) {
     $select_query = 'SELECT donor_number FROM civicrm_oppgave WHERE id = %1';
-    $select_params = array(1 => array($fields['id'], 'Positive'));
+    $select_params = [1 => [$fields['id'], 'Positive']];
     $select_dao = CRM_Core_DAO::executeQuery($select_query, $select_params);
     if ($select_dao->fetch()) {
       if (strtolower($fields['donor_number']) != strtolower($select_dao->donor_number)) {
         $check_query = 'SELECT COUNT(*) AS count_oppgave FROM civicrm_oppgave WHERE '
           . 'donor_number = %1 AND oppgave_year = %2';
-        $check_params = array(
-          1 => array($fields['donor_number'], 'String'),
-          2 => array($fields['oppgave_year'], 'Positive'));
+        $check_params = [
+          1 => [$fields['donor_number'], 'String'],
+          2 => [$fields['oppgave_year'], 'Positive']];
         $check_dao = CRM_Core_DAO::executeQuery($check_query, $check_params);
         if ($check_dao->fetch()) {
           if ($check_dao->count_oppgave > 0) {
@@ -266,7 +266,7 @@ class CRM_Oppgavexml_Form_Oppgave extends CRM_Core_Form {
      * items don't have labels.  We'll identify renderable by filtering on
      * the 'label'.
      */
-    $element_names = array();
+    $element_names = [];
     foreach ($this->_elements as $element) {
       $label = $element->getLabel();
       if (!empty($label)) {
@@ -287,12 +287,12 @@ class CRM_Oppgavexml_Form_Oppgave extends CRM_Core_Form {
       $this->add('hidden', 'contact_id', ts('ContactID'));
     }
     $this->add('select', 'donor_type', ts('Donor Type'), $this->_donor_type_list, true);
-    $this->add('text', 'donor_name', ts('Donor Name'), array('size' => CRM_Utils_Type::HUGE));
+    $this->add('text', 'donor_name', ts('Donor Name'), ['size' => CRM_Utils_Type::HUGE]);
     $this->add('text', 'donor_number', ts('Donor Number'));
     $this->add('text', 'deductible_amount', ts('Amount'));
-    $this->addButtons(array(
-      array('type' => 'next', 'name' => ts('Save'), 'isDefault' => true,),
-      array('type' => 'cancel', 'name' => ts('Cancel'))));
+    $this->addButtons([
+      ['type' => 'next', 'name' => ts('Save'), 'isDefault' => true,],
+      ['type' => 'cancel', 'name' => ts('Cancel')]]);
   }
   /**
    * Function to set the required option lists
@@ -300,7 +300,7 @@ class CRM_Oppgavexml_Form_Oppgave extends CRM_Core_Form {
    * @access protected
    */
   protected function set_option_lists() {
-    $this->_donor_type_list = array('Person', 'Organisasjon');
+    $this->_donor_type_list = ['Person', 'Organisasjon'];
   }
   /**
    * Function to set the form header
@@ -311,7 +311,7 @@ class CRM_Oppgavexml_Form_Oppgave extends CRM_Core_Form {
   protected function set_form_header() {
     $form_header = 'Donor oppgave year '.$this->_oppgave_year;
     $year_data = CRM_Oppgavexml_BAO_Skatteinnberetninger::get_values(
-      array('year' => $this->_oppgave_year));
+      ['year' => $this->_oppgave_year]);
     if (!empty($year_data) && isset($year_data[$this->_oppgave_year]['status_id'])) {
       $form_header .= ' with status ' .CRM_Oppgavexml_OptionGroup::get_status_option_label(
         $year_data[$this->_oppgave_year]['status_id']);

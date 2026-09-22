@@ -17,7 +17,7 @@ class CRM_Oppgavexml_BAO_Oppgave extends CRM_Oppgavexml_DAO_Oppgave {
    * @static
    */
   public static function get_values($params) {
-    $result = array();
+    $result = [];
     $oppgave = new CRM_Oppgavexml_BAO_Oppgave();
     if (!empty($params)) {
       $fields = self::fields();
@@ -29,7 +29,7 @@ class CRM_Oppgavexml_BAO_Oppgave extends CRM_Oppgavexml_DAO_Oppgave {
     }
     $oppgave->find();
     while ($oppgave->fetch()) {
-      $row = array();
+      $row = [];
       self::storeValues($oppgave, $row);
       $result[$row['id']] = $row;
     }
@@ -47,7 +47,7 @@ class CRM_Oppgavexml_BAO_Oppgave extends CRM_Oppgavexml_DAO_Oppgave {
    * @throws Exception when params invalid
    */
   public static function add($params) {
-    $result = array();
+    $result = [];
     if (empty($params)) {
       throw new Exception('Params can not be empty when adding or updating a tax declaration contact record');
     }

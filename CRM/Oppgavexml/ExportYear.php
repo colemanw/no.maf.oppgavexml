@@ -62,8 +62,8 @@ class CRM_Oppgavexml_ExportYear extends CRM_Oppgavexml_Config {
    * @access protected
    */
   protected function add_donor_lines(&$leveranse) {
-    $params = array(
-      'oppgave_year' => $this->_tax_year);
+    $params = [
+      'oppgave_year' => $this->_tax_year];
     $donors = CRM_Oppgavexml_BAO_Oppgave::get_values($params);
     foreach ($donors as $donor) {
       if (empty($donor['last_exported_date'])) {
@@ -133,10 +133,10 @@ class CRM_Oppgavexml_ExportYear extends CRM_Oppgavexml_Config {
     $export_date = date('Ymd');
     $query = 'UPDATE civicrm_oppgave SET last_exported_date = %1
       WHERE oppgave_year = %2 AND last_exported_date = NULL';
-    $params = array(
-      1 => array($export_date, 'Date'),
-      2 => array($this->_tax_year, 'Positive')
-    );
+    $params = [
+      1 => [$export_date, 'Date'],
+      2 => [$this->_tax_year, 'Positive']
+    ];
     CRM_Core_DAO::executeQuery($query, $params);
   }
 }

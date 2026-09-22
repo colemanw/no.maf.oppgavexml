@@ -3,13 +3,13 @@
 // The record will be automatically inserted, updated, or deleted from the
 // database as appropriate. For more details, see "hook_civicrm_managed" at:
 // http://wiki.civicrm.org/confluence/display/CRMDOC42/Hook+Reference
-return array (
+return [
   0 => 
-  array (
+  [
     'name' => 'Cron:TaxDeclarationYear.Export',
     'entity' => 'Job',
     'params' => 
-    array (
+    [
       'version' => 3,
       'name' => 'Skatteinnberetninger Export',
       'description' => 'Create XML file for Skatteinberetninger',
@@ -18,6 +18,6 @@ return array (
       'api_action' => 'Export',
       'parameters' => 'year = [2013, year to be exported] required',
       'is_active' => 0
-    ),
-  ),
-);
+    ],
+  ],
+];
