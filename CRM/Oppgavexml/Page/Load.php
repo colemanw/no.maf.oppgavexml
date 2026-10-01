@@ -7,7 +7,7 @@
 class CRM_Oppgavexml_Page_Load extends CRM_Core_Page {
 
   function run() {
-    $year = CRM_Utils_Request::retrieve('year', 'Integer', CRM_Core_DAO::$_nullObject, false, date('Y'));
+    $year = CRM_Utils_Request::retrieve('year', 'Integer', NULL, false, date('Y'));
 
     //retrieve the queue
     $queue = CRM_Oppgavexml_LoadQueue::singleton()->getQueue();
